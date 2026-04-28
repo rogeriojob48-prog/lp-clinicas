@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Veltro | Marketing de Elite para Clínicas</title>
+<meta name="description" content="A Veltro cria sites, agentes de IA e estratégia digital para clínicas, dentistas e esteticistas que querem lotar a agenda."/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary-fixed": "#bceecf",
+          "surface-bright": "#fcf9f2",
+          "secondary": "#4b635c",
+          "on-tertiary-fixed": "#111e16",
+          "on-error-container": "#93000a",
+          "error": "#ba1a1a",
+          "primary-container": "#2d5a43",
+          "on-tertiary-fixed-variant": "#3c4a40",
+          "inverse-on-surface": "#f3f0e9",
+          "error-container": "#ffdad6",
+          "on-error": "#ffffff",
+          "on-primary": "#ffffff",
+          "inverse-surface": "#31312c",
+          "on-secondary-container": "#506760",
+          "tertiary-container": "#47554b",
+          "surface-container-highest": "#e5e2db",
+          "background": "#fcf9f2",
+          "on-secondary": "#ffffff",
+          "surface-container-low": "#f6f3ec",
+          "on-tertiary": "#ffffff",
+          "primary-fixed-dim": "#a1d1b4",
+          "on-background": "#1c1c18",
+          "secondary-fixed": "#cee8df",
+          "on-primary-container": "#9fcfb2",
+          "tertiary-fixed": "#d7e6d9",
+          "tertiary": "#303e34",
+          "primary": "#14422d",
+          "inverse-primary": "#a1d1b4",
+          "surface-variant": "#e5e2db",
+          "surface-container-lowest": "#ffffff",
+          "on-secondary-fixed-variant": "#344b45",
+          "on-primary-fixed": "#002112",
+          "on-surface-variant": "#414943",
+          "surface": "#fcf9f2",
+          "tertiary-fixed-dim": "#bbcabd",
+          "secondary-container": "#cbe5dc",
+          "secondary-fixed-dim": "#b2ccc3",
+          "outline-variant": "#c0c9c1",
+          "surface-tint": "#3a674f",
+          "surface-container": "#f1eee7",
+          "on-tertiary-container": "#b9c9bc",
+          "on-primary-fixed-variant": "#224f39",
+          "surface-dim": "#dcdad3",
+          "surface-container-high": "#ebe8e1",
+          "on-surface": "#1c1c18",
+          "outline": "#717973",
+          "on-secondary-fixed": "#071f1a",
+          "orange": "#E8703A",
+        },
+        borderRadius: {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        fontFamily: {
+          "headline": ["Manrope"],
+          "body": ["Manrope"],
+          "label": ["Manrope"]
+        }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Manrope', sans-serif; background-color: #fcf9f2; color: #1c1c18; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+  .clinical-shadow { box-shadow: 0 10px 30px -5px rgba(28,28,24,0.07); }
+
+  /* Problem cards accent corners */
+  .problem-card {
+    position: relative;
+    background: white;
+    border-radius: 2rem;
+    padding: 2.5rem;
+    transition: all 0.5s ease;
+  }
+  .problem-card::before, .problem-card::after {
+    content: '';
+    position: absolute;
+    background: #14422d;
+    border-radius: 10px;
+  }
+  .problem-card::before {
+    top: 0; right: 0;
+    height: 60px; width: 4px;
+    border-top-right-radius: 2rem;
+  }
+  .problem-card::after {
+    top: 0; right: 0;
+    width: 60px; height: 4px;
+    border-top-right-radius: 2rem;
+  }
+
+/* SERVIÇOS — ACCORDION */
+#servicos { padding:120px 80px }
+.serv-header{margin-bottom:64px}
+.serv-header .section-title{margin-bottom:12px}
+.serv-header p{font-size:16px;font-weight:400;max-width:520px;line-height:1.7}
+
+/* Layout: texto esquerda + accordion direita */
+.serv-inner{display:grid;grid-template-columns:1fr 1.5fr;gap:80px;align-items:center}
+.serv-left .section-title{margin-bottom:16px}
+.serv-left-desc{font-size:16px;font-weight:400;line-height:1.75;margin-bottom:36px;max-width:400px}
+.serv-cta{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:100px;font-size:14px;font-weight:600;transition:background 0.2s,transform 0.2s}
+.serv-cta:hover{transform:translateY(-2px)}
+
+/* Accordion */
+.serv-accordion{display:flex;flex-direction:row;align-items:stretch;gap:12px;height:490px}
+.acc-item{
+  position:relative;
+  border-radius:20px;
+  overflow:hidden;
+  cursor:pointer;
+  /* CSS transition — no JS width needed for smooth expansion */
+  transition:flex 0.65s cubic-bezier(0.4,0,0.2,1);
+  flex:0 0 60px; /* collapsed */
+  min-width:60px;
+}
+.acc-item.active{
+  flex:1 1 550px; /* expanded */
+}
+
+/* Background image / placeholder */
+.acc-bg{
+  position:absolute; inset:0;
+  background-size:cover; background-position:center;
+  transition:transform 0.65s cubic-bezier(0.4,0,0.2,1);
+}
+.acc-item:hover .acc-bg{ transform:scale(1.04); }
+
+/* Placeholder gradient when no real image */
+.acc-bg-placeholder{
+  position:absolute; inset:0;
+}
+.acc-bg-placeholder.p1{background:linear-gradient(145deg,#1a3a2a 0%,#2d7a4f 100%)}
+.acc-bg-placeholder.p2{background:linear-gradient(145deg,#1a2a3a 0%,#2d4a7a 100%)}
+.acc-bg-placeholder.p3{background:linear-gradient(145deg,#3a1a2a 0%,#7a2d4f 100%)}
+.acc-bg-placeholder.p4{background:linear-gradient(145deg,#2a2a1a 0%,#5a5a2d 100%)}
+
+/* Grid pattern on placeholder */
+.acc-bg-placeholder::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.04) 1px,transparent 1px);
+  background-size:24px 24px;
+}
+
+/* Dark overlay */
+.acc-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,rgba(0,0,0,0.2) 60%,rgba(0,0,0,0.05) 100%);
+}
+
+/* Collapsed label — vertical */
+.acc-label-v{
+  position:absolute;
+  bottom:88px; left:50%;
+  transform:translateX(-50%) rotate(90deg);
+  transform-origin:center center;
+  font-family:var(--fh);font-size:14px;font-weight:700;
+  color:rgba(255,255,255,0.9);white-space:nowrap;
+  letter-spacing:-0.3px;
+  transition:opacity 0.3s ease;
+}
+.acc-item.active .acc-label-v{opacity:0;pointer-events:none}
+
+/* Expanded content — bottom */
+.acc-content{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:28px;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity 0.35s ease 0.2s, transform 0.35s ease 0.2s;
+  pointer-events:none;
+}
+.acc-item.active .acc-content{
+  opacity:1;transform:translateY(0);pointer-events:auto;
+}
+
+.acc-tag{
+  display:inline-flex;align-items:center;
+  background:rgba(255,255,255,0.12);
+  border:1px solid rgba(255,255,255,0.2);
+  border-radius:100px;padding:4px 12px;
+  font-family:var(--fh);font-size:10px;font-weight:600;
+  color:rgba(255,255,255,0.7);letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.acc-title{
+  font-family:var(--fh);font-size:22px;font-weight:800;
+  letter-spacing:-0.8px;color:#fff;
+  margin-bottom:8px;line-height:1.15;
+}
+.acc-desc{
+  font-size:13px;font-weight:400;
+  color:rgba(255,255,255,0.6);line-height:1.65;
+}
+
+/* Mobile accordion: stack vertical */
+@media(max-width:1024px){
+  .serv-inner{grid-template-columns:1fr;gap:48px}
+  .serv-accordion{flex-direction:column;height:auto;gap:10px;width:100%;margin-left:-42px;margin-right:-42px;}
+  .acc-item{flex:none!important;width:calc(100% + 84px);height:90px;border-radius:16px}
+  .acc-item.active{height:260px}
+  .acc-label-v{transform:translateX(-50%) rotate(0deg);bottom:auto;top:50%;transform:translate(-50%,-50%)}
+  .acc-item.active .acc-label-v{opacity:0}
+  .acc-content{padding:24px}
+  .acc-title{font-size:20px}
+}
+
+  /* Grain */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    opacity: 0.013;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* FAB expand */
+  .fab-label {
+    max-width: 0;
+    overflow: hidden;
+    transition: max-width 0.5s ease, padding 0.3s ease;
+    white-space: nowrap;
+  }
+  .fab:hover .fab-label {
+    max-width: 200px;
+    padding-right: 8px;
+  }
+
+  /* Reveal animation base */
+  .reveal { opacity: 0; transform: translateY(28px); }
+  .reveal-left { opacity: 0; transform: translateX(-48px); }
+  .reveal-right { opacity: 0; transform: translateX(48px); }
+
+  /* Pricing card hover */
+  .pricing-card {
+    transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), box-shadow 0.35s;
+  }
+  .pricing-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(20,66,45,0.15);
+  }
+
+  /* Depoimentos */
+#depoimentos-container {
+  overflow: hidden;
+  position: relative;
+  touch-action: pan-y; /* permite swipe horizontal suave */
+  cursor: grab;
+}
+
+#depoimentos-container:active{
+  cursor: grabbing;
+}
+  
+  .depoimentos-wrapper {
+    display: flex;
+    width: 200%;
+  }
+  .depoimento {
+    width: 50%;
+  }
+
+/* Estado inicial: botão redondo */
+.fab{
+  width:60px;
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border-radius:9999px;
+}
+
+/* Ícone */
+.fab svg{
+  width:24px;
+  height:24px;
+  flex-shrink:0;
+}
+
+/* Esconde o texto */
+.fab-label{
+  opacity:0;
+  width:0;
+  margin-left:0;
+  overflow:hidden;
+  white-space:nowrap;
+  transition:all 0.3s ease;
+}
+
+/* Hover: expande */
+.fab:hover{
+  width:auto;
+  padding-left:16px;
+  padding-right:16px;
+}
+
+/* Mostra o texto */
+.fab:hover .fab-label{
+  opacity:1;
+  width:auto;
+  margin-left:8px;
+}
+
+/* FAQ Accordion */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        /* Garante que os itens sejam visíveis se o JS demorar */
+.faq-accordion-item, .faq-text-element, .faq-image-wrapper {
+    opacity: 1;
+}
+
+html, body {
+  overflow-x: hidden;
+}
+
+</style>
+</head>
+<body class="selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+<!-- ═══ NAV ═══ -->
+<nav class="fixed top-0 left-0 w-full z-50 bg-[#fcf9f2]/70 backdrop-blur-md shadow-[0_4px_24px_-4px_rgba(28,28,24,0.06)]">
+  <div class="flex justify-between items-center px-6 md:px-12 py-4 md:py-5 max-w-screen-2xl mx-auto">
+    <a href="#" class="text-2xl font-extrabold tracking-tighter text-primary">
+      Velt<span class="text-orange">r</span>o
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a class="font-['Manrope'] tracking-tight text-sm uppercase font-bold text-primary border-b-2 border-primary pb-1" href="#servicos">Serviços</a>
+      <a class="font-['Manrope'] tracking-tight text-sm uppercase font-semibold text-secondary hover:text-primary transition-colors duration-300 pb-1" href="#agendiq">Agendiq</a>
+      <a class="font-['Manrope'] tracking-tight text-sm uppercase font-semibold text-secondary hover:text-primary transition-colors duration-300 pb-1" href="#cases">Cases</a>
+      <a class="font-['Manrope'] tracking-tight text-sm uppercase font-semibold text-secondary hover:text-primary transition-colors duration-300 pb-1" href="#depoimentos">Depoimentos</a>
+      <a class="font-['Manrope'] tracking-tight text-sm uppercase font-semibold text-secondary hover:text-primary transition-colors duration-300 pb-1" href="#contato">Contato</a>
+    </div>
+    <a href="https://wa.me/5599991994754" target="_blank"
+       class="bg-primary text-white px-6 py-3 rounded-full font-bold text-sm uppercase tracking-wide hover:scale-105 transition-transform duration-200 hidden md:inline-flex items-center gap-2">
+      <svg viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Falar no WhatsApp
+    </a>
+    <!-- Mobile hamburger -->
+    <button id="hamburger" class="md:hidden flex flex-col gap-1.5 p-2">
+      <span class="block w-6 h-0.5 bg-primary transition-all"></span>
+      <span class="block w-6 h-0.5 bg-primary transition-all"></span>
+      <span class="block w-6 h-0.5 bg-primary transition-all"></span>
+    </button>
+  </div>
+<!-- Mobile menu (dropdown) -->
+  <div id="mobile-menu"
+       class="absolute top-full left-0 w-full bg-[#fcf9f2] shadow-lg
+              max-h-0 overflow-hidden transition-all duration-300 ease-in-out md:hidden">
+    <div class="px-6 py-6 flex flex-col gap-4">
+      <a class="font-bold text-primary uppercase text-sm tracking-widest" href="#servicos">Serviços</a>
+      <a class="font-bold text-secondary uppercase text-sm tracking-widest" href="#agendiq">Agendiq</a>
+      <a class="font-bold text-secondary uppercase text-sm tracking-widest" href="#cases">Cases</a>
+      <a class="font-bold text-secondary uppercase text-sm tracking-widest" href="#depoimentos">Depoimentos</a>
+      <a href="https://wa.me/5599991994754" target="_blank"
+         class="mt-2 bg-primary text-white px-6 py-3 rounded-full font-bold text-sm text-center">
+        Falar no WhatsApp
+      </a>
+    </div>
+  </div>
+</nav>
+
+<header class="relative overflow-hidden min-h-[100svh]">
+
+  <!-- IMAGEM DE FUNDO -->
+<div class="absolute inset-0 z-0 overflow-hidden">
+
+  <!-- MOBILE: imagem ocupa 75% do topo, deixa espaço no bottom -->
+  <img 
+    src="img/hr1.png"
+    alt="Equipe de profissionais de saúde"
+    class="block md:hidden w-full object-cover"
+    style="height: 75%; object-position: 95% top; object-fit: cover; zoom: 1.8;"
+  />
+
+  <!-- DESKTOP: comportamento original, full-screen -->
+  <img 
+    src="img/hr1.png"
+    alt="Equipe de profissionais de saúde"
+    class="hidden md:block w-full h-full object-cover"
+    style="object-position: 60% 0%;"
+  />
+
+</div>
+
+<!-- Gradiente MOBILE -->
+    <div class="absolute inset-0 md:hidden" style="background: linear-gradient(
+  to bottom,
+  rgba(20,66,45,0) 0%,
+  rgba(20,66,45,0) 18%,
+  rgba(20,66,45,0.55) 35%,
+  rgba(20,66,45,0.92) 52%,
+  rgba(20,66,45,1) 68%,
+  rgba(20,66,45,1) 100%
+);"></div>
+
+    <!-- Gradiente DESKTOP: vem da esquerda -->
+    <div class="absolute inset-0 hidden md:block" style="background: linear-gradient(
+      90deg,
+      rgba(20,66,45,0.93) 0%,
+      rgba(20,66,45,0.80) 30%,
+      rgba(20,66,45,0.45) 55%,
+      rgba(20,66,45,0.10) 80%,
+      rgba(20,66,45,0) 100%
+    );"></div>
+  </div>
+
+  <!-- CONTEÚDO MOBILE: ancorado no bottom -->
+  <!-- CONTEÚDO DESKTOP: centralizado à esquerda -->
+  <div class="relative z-10 min-h-[100svh] flex items-end md:items-center w-full">
+    <div class="w-full max-w-7xl mx-auto px-6 pb-14 pt-0 md:pt-40 md:pb-16">
+      <div class="max-w-2xl text-left">
+
+        <span class="font-bold tracking-[0.25em] uppercase text-[11px] md:text-xs mb-4 block text-white/60">
+          Marketing especializado para clínicas
+        </span>
+
+        <h1 class="font-extrabold text-white leading-[1.05] tracking-tight mb-5"
+            style="font-size: clamp(2.4rem, 9vw, 65px);">
+          Sua clínica merece<br/>
+          uma agenda<br/>
+          <span class="text-primary-fixed">cheia.</span>
+        </h1>
+
+        <p class="text-white/80 font-light mb-8 leading-relaxed"
+           style="font-size: clamp(0.95rem, 3.5vw, 18px);">
+          Estratégias desenvolvidas exclusivamente para
+          <span class="font-semibold text-white">esteticistas, dentistas e médicos</span>.
+          Presença digital que gera pacientes reais.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+          <a href="https://wa.me/5599991994754" target="_blank"
+             class="px-8 py-4 bg-white text-primary rounded-full font-bold text-base hover:scale-105 transition-transform clinical-shadow flex items-center justify-center gap-3">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 flex-shrink-0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347"/></svg>
+            Quero lotar minha agenda
+          </a>
+          <a href="#cases"
+             class="px-8 py-4 bg-transparent border border-white/40 text-white rounded-full font-bold text-base backdrop-blur-sm hover:bg-white/10 transition-all text-center">
+            Ver nossos cases
+          </a>
+        </div>
+
+        <div class="flex items-center gap-3 mt-8">
+          <div class="flex">
+            <div class="w-8 h-8 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center text-white text-[10px] font-bold">AM</div>
+            <div class="w-8 h-8 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center text-white text-[10px] font-bold -ml-2">RB</div>
+            <div class="w-8 h-8 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center text-white text-[10px] font-bold -ml-2">CL</div>
+            <div class="w-8 h-8 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center text-white text-[10px] font-bold -ml-2">JP</div>
+          </div>
+          <p class="text-white/70 text-sm font-medium">
+            <strong class="text-white">+20 clínicas</strong> já crescendo com a Veltro
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</header>
+
+<!-- ═══ PROBLEMAS ═══ -->
+<section class="py-32 px-6 bg-surface">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-24 reveal">
+      <h2 class="text-4xl md:text-5xl font-bold tracking-tight text-primary mb-6">Por que a maioria das clínicas falha no digital?</h2>
+      <div class="w-24 h-1 bg-primary mx-auto opacity-20 rounded-full"></div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+
+      <div class="problem-card clinical-shadow reveal-left">
+        <div class="w-14 h-14 rounded-xl bg-primary flex items-center justify-center mb-8 text-white shadow-lg">
+          <span class="material-symbols-outlined text-3xl">visibility_off</span>
+        </div>
+        <h3 class="text-2xl font-bold text-primary mb-4 tracking-tight">Invisível no Google</h3>
+        <p class="text-secondary leading-relaxed font-medium mb-8">Quando alguém pesquisa dentista ou esteticista na sua cidade, seus concorrentes aparecem. Você não existe online.</p>
+        <a class="inline-flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all" href="#servicos">
+          Como resolvemos <span class="material-symbols-outlined text-base">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="problem-card clinical-shadow reveal" style="transition-delay:0.1s">
+        <div class="w-14 h-14 rounded-xl bg-primary flex items-center justify-center mb-8 text-white shadow-lg">
+          <span class="material-symbols-outlined text-3xl">event_busy</span>
+        </div>
+        <h3 class="text-2xl font-bold text-primary mb-4 tracking-tight">Agenda Dependente de Indicação</h3>
+        <p class="text-secondary leading-relaxed font-medium mb-8">Sem presença digital ativa, cada mês é uma incógnita. Bom quando alguém indica, ruim quando param de indicar.</p>
+        <a class="inline-flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all" href="#servicos">
+          Como resolvemos <span class="material-symbols-outlined text-base">arrow_forward</span>
+        </a>
+      </div>
+
+      <div class="problem-card clinical-shadow reveal-right">
+        <div class="w-14 h-14 rounded-xl bg-primary flex items-center justify-center mb-8 text-white shadow-lg">
+          <span class="material-symbols-outlined text-3xl">verified_user</span>
+        </div>
+        <h3 class="text-2xl font-bold text-primary mb-4 tracking-tight">Instagram que Não Converte</h3>
+        <p class="text-secondary leading-relaxed font-medium mb-8">Você posta mas seguidores não viram consultas. Falta estratégia, consistência e identidade que gera confiança.</p>
+        <a class="inline-flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all" href="#servicos">
+          Como resolvemos <span class="material-symbols-outlined text-base">arrow_forward</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS — ACCORDION -->
+<section id="servicos">
+<div class="serv-inner"> 
+
+  <!-- Esquerda: texto -->
+  <div class="serv-left reveal-left">
+        <span class="text-primary font-bold tracking-[0.3em] uppercase text-xs mb-6 block">Nossos Serviços</span>
+        <h2 class="text-5xl md:text-6xl font-bold tracking-tighter text-primary mb-8 leading-[1.08]">
+          Soluções Clínicas.
+        </h2>
+        <p class="text-lg text-secondary leading-relaxed mb-10">
+         Estratégias sob medida para quem não aceita o comum. Criamos ecossistemas digitais que convertem curiosos em pacientes fiéis.        </p>
+        <a href="https://wa.me/5599991994754" target="_blank"
+           class="inline-flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-full font-bold hover:scale-105 transition-transform">
+          Entrar em contato.
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+      </div>
+
+    <!-- Direita: accordion de imagens -->
+    <div class="serv-accordion reveal-right" id="serv-accordion">
+
+      <!-- 1. Sites Profissionais -->
+      <div class="acc-item active" data-index="0">
+        <div class="acc-bg-placeholder p1"></div>
+        <div class="acc-bg" style="background-image:url(img/wbst.jpg)"></div>
+        <div class="acc-overlay"></div>
+        <span class="acc-label-v">Sites Profissionais</span>
+        <div class="acc-content">
+          <div class="acc-tag">Web Design</div>
+          <div class="acc-title">Sites Profissionais</div>
+          <div class="acc-desc">Landing pages e sites institucionais otimizados para SEO local, com agendamento integrado e velocidade Google.</div>
+        </div>
+      </div>
+
+      <!-- 2. Social Media -->
+      <div class="acc-item" data-index="1">
+        <div class="acc-bg-placeholder p2"></div>
+        <div class="acc-bg" style="background-image:url(img/chbt\ -\ Copia.jpg)"></div>
+        <div class="acc-overlay"></div>
+        <span class="acc-label-v">Social Media</span>
+        <div class="acc-content">
+          <div class="acc-tag">Conteúdo</div>
+          <div class="acc-title">Social Media</div>
+          <div class="acc-desc">Feed, stories e reels estratégicos com identidade visual consistente que transforma seguidores em pacientes.</div>
+        </div>
+      </div>
+
+      <!-- 3. ChatBot IA -->
+      <div class="acc-item" data-index="2">
+        <div class="acc-bg-placeholder p3"></div>
+        <div class="acc-bg" style="background-image:url(img/representation-user-experience-interface-design.jpg)"></div>
+        <div class="acc-overlay"></div>
+        <span class="acc-label-v">ChatBot IA</span>
+        <div class="acc-content">
+          <div class="acc-tag">Inteligência Artificial</div>
+          <div class="acc-title">ChatBot IA</div>
+          <div class="acc-desc">Atendimento automático no WhatsApp 24h. Responde dúvidas, qualifica leads e agenda consultas enquanto você dorme.</div>
+        </div>
+      </div>
+
+      <!-- 4. Agendiq -->
+      <div class="acc-item" data-index="3">
+        <div class="acc-bg-placeholder p4"></div>
+        <div class="acc-bg" style="background-image:url(img/mascote.png)"></div>
+        <div class="acc-overlay"></div>
+        <span class="acc-label-v">Agendiq</span>
+        <div class="acc-content">
+          <div class="acc-tag">Produto Veltro</div>
+          <div class="acc-title">Agendiq</div>
+          <div class="acc-desc">Nossa plataforma de agendamento online inteligente. Pacientes agendam sozinhos, você recebe notificações em tempo real.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>   
+</section>
+
+<!-- ═══ AGENDIQ ═══ -->
+<section class="py-32 bg-surface-container-high overflow-hidden" id="agendiq">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+
+      <!-- Demo -->
+      <div class="order-2 lg:order-1">
+        <div class="bg-white rounded-[2.5rem] p-8 clinical-shadow border border-outline-variant/10">
+
+          <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
+            <h4 class="font-bold text-primary text-xl tracking-tight">Agendiq</h4>
+            <span class="text-xs font-bold uppercase tracking-widest text-gray-400">Demo</span>
+          </div>
+
+          <!-- PAINEL -->
+          <div id="aq-panel">
+
+            <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:20px;">
+
+              <!-- CALENDÁRIO -->
+              <div style="background:#f5f7f5;border-radius:16px;padding:18px;">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                  <button id="aq-prev" style="background:none;border:none;cursor:pointer;font-size:18px;color:#6b7280;padding:2px 8px;border-radius:8px;line-height:1;">&#8249;</button>
+                  <span id="aq-cal-month" style="font-size:13px;font-weight:700;color:#14422d;"></span>
+                  <button id="aq-next" style="background:none;border:none;cursor:pointer;font-size:18px;color:#6b7280;padding:2px 8px;border-radius:8px;line-height:1;">&#8250;</button>
+                </div>
+                <div id="aq-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center;"></div>
+              </div>
+
+              <!-- HORÁRIOS -->
+              <div style="background:#f5f7f5;border-radius:16px;padding:18px;">
+                <p style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:12px;">HORÁRIO</p>
+                <div id="aq-slots" style="display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;scrollbar-width:none;"></div>
+              </div>
+
+            </div>
+
+            <button id="aq-btn"
+              style="width:100%;padding:14px;background:#14422d;color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;opacity:.4;pointer-events:none;transition:opacity .2s;">
+              Confirmar Agendamento
+            </button>
+          </div>
+
+          <!-- SUCESSO -->
+          <div id="aq-ok" style="display:none;text-align:center;padding:24px 0;">
+            <div style="font-size:48px;margin-bottom:12px;color:#14422d;">✓</div>
+            <p style="font-weight:700;color:#14422d;font-size:16px;margin-bottom:8px;">Agendamento confirmado!</p>
+            <p id="aq-ok-msg" style="font-size:12px;color:#666;line-height:1.6;margin-bottom:20px;"></p>
+            <button id="aq-reset-btn" style="font-size:12px;color:#999;background:none;border:none;cursor:pointer;text-decoration:underline;">
+              Fazer novo agendamento
+            </button>
+          </div>
+
+        </div>
+      </div>
+      <!-- FIM DEMO -->
+
+      <!-- SCRIPT INLINE — após os elementos existirem no DOM -->
+      <script>
+      (function(){
+        var P     = '#14422d';
+        var SEL   = '#d4e6dc';
+        var MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+        var WDS   = ['S','T','Q','Q','S','S','D'];
+        var SLOTS = ['09:00','09:30','10:00','10:30','11:00','11:30','14:00','14:30','15:00','15:30','16:00','16:30'];
+        var cur   = new Date();
+        var today = new Date(); today.setHours(0,0,0,0);
+        var sDate = '', sSlot = '';
+
+        var grid  = document.getElementById('aq-cal-grid');
+        var month = document.getElementById('aq-cal-month');
+        var slots = document.getElementById('aq-slots');
+        var btn   = document.getElementById('aq-btn');
+
+        function renderCal(){
+          var y = cur.getFullYear(), m = cur.getMonth();
+          month.textContent = MESES[m] + ' ' + y;
+          grid.innerHTML = '';
+          WDS.forEach(function(w){
+            var d = document.createElement('div');
+            d.textContent = w;
+            d.style.cssText = 'font-size:9px;font-weight:700;color:#9ca3af;padding-bottom:6px;text-align:center;';
+            grid.appendChild(d);
+          });
+          var start = (new Date(y,m,1).getDay()+6)%7;
+          for(var i=0;i<start;i++) grid.appendChild(document.createElement('div'));
+          var days = new Date(y,m+1,0).getDate();
+          for(var dd=1;dd<=days;dd++){
+            var dt  = new Date(y,m,dd);
+            var str = String(dd).padStart(2,'0')+'/'+String(m+1).padStart(2,'0')+'/'+y;
+            var past= dt<today, sel=str===sDate, tod=dt.getTime()===today.getTime();
+            var c   = document.createElement('div');
+            c.textContent = dd;
+            c.style.cssText = 'width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:auto;font-size:11px;font-weight:'+(sel||tod?'700':'500')+';cursor:'+(past?'default':'pointer')+';color:'+(past?'#d1d5db':sel?'#fff':tod?P:'#374151')+';background:'+(sel?P:'transparent')+';transition:background .15s;';
+            if(!past){
+              c.addEventListener('click',(function(s){ return function(){ sDate=s; renderCal(); check(); }; })(str));
+              if(!sel){
+                c.addEventListener('mouseenter',function(){ this.style.background='#e8f0ec'; });
+                c.addEventListener('mouseleave',function(){ this.style.background='transparent'; });
+              }
+            }
+            grid.appendChild(c);
+          }
+        }
+
+        document.getElementById('aq-prev').addEventListener('click',function(){ cur=new Date(cur.getFullYear(),cur.getMonth()-1,1); renderCal(); });
+        document.getElementById('aq-next').addEventListener('click',function(){ cur=new Date(cur.getFullYear(),cur.getMonth()+1,1); renderCal(); });
+        renderCal();
+
+        SLOTS.forEach(function(s){
+          var b = document.createElement('button');
+          b.textContent = s;
+          b.style.cssText = 'padding:8px 12px;border-radius:8px;font-size:12px;font-weight:700;width:100%;cursor:pointer;text-align:center;border:1.5px solid #e0e0e0;background:#fff;color:'+P+';font-family:inherit;transition:all .15s;display:block;';
+          b.addEventListener('click',function(){
+            slots.querySelectorAll('button').forEach(function(x){ x.style.borderColor='#e0e0e0'; x.style.background='#fff'; });
+            this.style.borderColor=P; this.style.background=SEL;
+            sSlot=s; check();
+          });
+          slots.appendChild(b);
+        });
+
+        function check(){
+          var ok=sDate&&sSlot;
+          btn.style.opacity=ok?'1':'.4';
+          btn.style.pointerEvents=ok?'auto':'none';
+        }
+
+        btn.addEventListener('click',function(){
+          document.getElementById('aq-ok-msg').textContent='Horário das '+sSlot+' do dia '+sDate+' registrado. Em breve você receberá a confirmação via WhatsApp.';
+          document.getElementById('aq-panel').style.display='none';
+          document.getElementById('aq-ok').style.display='block';
+        });
+
+        document.getElementById('aq-reset-btn').addEventListener('click',function(){
+          sDate=''; sSlot=''; cur=new Date(); renderCal();
+          slots.querySelectorAll('button').forEach(function(b){ b.style.borderColor='#e0e0e0'; b.style.background='#fff'; });
+          check();
+          document.getElementById('aq-panel').style.display='block';
+          document.getElementById('aq-ok').style.display='none';
+        });
+      })();
+      </script>
+
+
+      <!-- Texto -->
+      <div class="order-1 lg:order-2 reveal-right">
+        <span class="text-primary font-bold tracking-[0.3em] uppercase text-xs mb-6 block">Produto Veltro</span>
+        <h2 class="text-5xl md:text-6xl font-bold tracking-tighter text-primary mb-8 leading-[1.08]">Agendiq:<br/>Sua Clínica<br/>Sempre Aberta.</h2>
+        <p class="text-lg text-secondary leading-relaxed mb-10">O Agendiq não é apenas um calendário — é uma experiência de concierge digital. Eliminamos o atrito na jornada do paciente com um sistema de reserva fluido, intuitivo e integrado à sua gestão.</p>
+        <ul class="space-y-5 mb-10">
+          <li class="flex items-center gap-4 text-primary font-bold"><span class="material-symbols-outlined text-primary-container">check_circle</span>Confirmação automática via WhatsApp</li>
+          <li class="flex items-center gap-4 text-primary font-bold"><span class="material-symbols-outlined text-primary-container">check_circle</span>Sincronização com Google Calendar</li>
+          <li class="flex items-center gap-4 text-primary font-bold"><span class="material-symbols-outlined text-primary-container">check_circle</span>Interface personalizada com sua marca</li>
+          <li class="flex items-center gap-4 text-primary font-bold"><span class="material-symbols-outlined text-primary-container">check_circle</span>Lembretes automáticos reduzem faltas</li>
+        </ul>
+        <a href="https://wa.me/5599991994754" target="_blank"
+           class="inline-flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-full font-bold hover:scale-105 transition-transform">
+          Conhecer o Agendiq
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CASES ═══ -->
+<section class="py-32 bg-surface" id="cases">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-5xl font-bold tracking-tighter text-primary mb-16 text-center reveal">Histórias de Sucesso</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <div class="group relative rounded-[2.5rem] overflow-hidden clinical-shadow h-[480px] reveal-left">
+        <img src="img/caseA.png" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" alt="Clínica Aurora">
+        <div class="w-full h-full bg-gradient-to-br from-primary to-primary-container transition-all duration-700 group-hover:scale-105"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-10">
+          <span class="text-white/60 font-bold uppercase tracking-widest text-xs mb-2">Estética</span>
+          <h3 class="text-3xl font-bold text-white mb-2 tracking-tight">Clínica Arleane Carvalho</h3>
+          <p class="text-white/80 text-lg">+340% de tráfego orgânico. Lista de espera em 2 meses.</p>
+          <a  onclick="openCase('arleane')" class="inline-flex items-center gap-2 text-primary-fixed font-bold mt-4 hover:gap-4 transition-all text-sm uppercase tracking-wider">
+            Ver case <span class="material-symbols-outlined text-base">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="group relative rounded-[2.5rem] overflow-hidden clinical-shadow h-[480px] reveal-right">
+        <img src="img/caseL.png" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" alt="Dr. Henrique">
+        <div class="w-full h-full bg-gradient-to-br from-[#1a2a3a] to-[#2d4a7a] transition-all duration-700 group-hover:scale-105"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-10">
+          <span class="text-white/60 font-bold uppercase tracking-widest text-xs mb-2">Odontologia</span>
+          <h3 class="text-3xl font-bold text-white mb-2 tracking-tight">Dra. Lívia Meira</h3>
+          <p class="text-white/80 text-lg">+95% de conversão. Liderança em buscas locais.</p>
+          <a onclick="openCase('livia')" class="inline-flex items-center gap-2 text-primary-fixed font-bold mt-4 hover:gap-4 transition-all text-sm uppercase tracking-wider">
+            Ver case <span class="material-symbols-outlined text-base">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DEPOIMENTO ═══ -->
+<section class="py-32 bg-white" id="depoimentos">
+  <div class="max-w-5xl mx-auto px-6 text-center reveal">
+    <span class="material-symbols-outlined text-primary/15 text-8xl mb-8 block" style="font-variation-settings:'FILL' 1">format_quote</span>
+    <div id="depoimentos-container">
+      <div class="depoimentos-wrapper">
+        <div class="depoimento">
+          <blockquote class="text-3xl md:text-4xl font-light text-primary leading-tight italic mb-12 tracking-tight">
+            "Em 2 meses com a Veltro, nossa agenda estava lotada pela primeira vez. Hoje temos lista de espera. O site, o Instagram e o ChatBot trabalham por nós 24h."
+          </blockquote>
+          <div class="flex flex-col items-center">
+            <div class="w-16 h-16 rounded-full overflow-hidden mb-4 bg-surface-container-low flex items-center justify-center">
+              <!--
+                FOTO: 160×160px circular
+                <img src="./img/depoimento-ana.jpg" class="w-full h-full object-cover" alt="Ana Mello">
+              -->
+              <span class="text-xl font-bold text-primary">AC</span>
+            </div>
+            <cite class="not-italic">
+              <p class="font-bold text-primary text-xl tracking-tight">Arleane Carvalho</p>
+              <p class="text-secondary uppercase text-xs font-bold tracking-widest mt-1">Esteticista — Studio AC</p>
+            </cite>
+          </div>
+        </div>
+        <div class="depoimento">
+          <blockquote class="text-3xl md:text-4xl font-light text-primary leading-tight italic mb-12 tracking-tight">
+            "A Veltro transformou nossa clínica odontológica. De invisíveis no Google para líderes em buscas locais. Pacientes chegam todos os dias!"
+          </blockquote>
+          <div class="flex flex-col items-center">
+            <div class="w-16 h-16 rounded-full overflow-hidden mb-4 bg-surface-container-low flex items-center justify-center">
+              <!--
+                FOTO: 160×160px circular
+                <img src="./img/depoimento-roberto.jpg" class="w-full h-full object-cover" alt="Dr. Roberto Silva">
+              -->
+              <span class="text-xl font-bold text-primary">LM</span>
+            </div>
+            <cite class="not-italic">
+              <p class="font-bold text-primary text-xl tracking-tight">Dra. Lívia Meira</p>
+              <p class="text-secondary uppercase text-xs font-bold tracking-widest mt-1">Dentista — Dental Center</p>
+            </cite>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PREÇOS ═══ -->
+<section class="py-32 bg-surface-container-low" id="precos">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-20 reveal">
+      <h2 class="text-5xl font-bold tracking-tighter text-primary mb-6">Escolha seu Plano</h2>
+      <p class="text-lg text-secondary">Investimentos pensados para diferentes estágios de crescimento clínico.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <div class="pricing-card bg-white p-12 rounded-[2.5rem] clinical-shadow border border-outline-variant/10 flex flex-col justify-between reveal-left">
+        <div>
+          <h3 class="text-2xl font-bold text-primary mb-2 tracking-tight">Social Media</h3>
+          <p class="text-secondary text-sm mb-8">Para clínicas em estágio inicial de presença digital.</p>
+          <div class="text-4xl font-extrabold text-primary mb-10 tracking-tighter">R$ 500<span class="text-lg font-medium text-secondary">/mês</span></div>
+          <ul class="space-y-4 mb-10">
+            <li class="flex items-center gap-3 text-sm font-medium text-secondary"><span class="material-symbols-outlined text-primary text-lg">check</span>Posts Profissionais</li>
+            <li class="flex items-center gap-3 text-sm font-medium text-secondary"><span class="material-symbols-outlined text-primary text-lg">check</span>Gestão de Instagram</li>
+            <li class="flex items-center gap-3 text-sm font-medium text-secondary"><span class="material-symbols-outlined text-primary text-lg">check</span>Relatório mensal</li>
+          </ul>
+        </div>
+        <a href="https://wa.me/5599991994754" target="_blank" class="block w-full py-4 text-center border-2 border-primary text-primary rounded-full font-bold hover:bg-primary hover:text-white transition-all">
+          Começar Agora
+        </a>
+      </div>
+
+      <div class="pricing-card bg-primary p-12 rounded-[2.5rem] clinical-shadow scale-105 z-10 flex flex-col justify-between reveal">
+        <div>
+          <div class="inline-block px-3 py-1 bg-white/20 text-white text-[10px] font-bold uppercase tracking-widest rounded-full mb-6">Mais Procurado</div>
+          <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Site + Social Media + ChatBot</h3>
+          <p class="text-white/70 text-sm mb-8">Transformação total em referência da sua cidade.</p>
+          <div class="text-4xl font-extrabold text-white mb-10 tracking-tighter">Sob Consulta</div>
+          <ul class="space-y-4 mb-10">
+            <li class="flex items-center gap-3 text-sm font-medium text-white"><span class="material-symbols-outlined text-white text-lg">check</span>Posts Profissionais</li>
+            <li class="flex items-center gap-3 text-sm font-medium text-white"><span class="material-symbols-outlined text-white text-lg">check</span>ChatBot de IA 24h</li>
+            <li class="flex items-center gap-3 text-sm font-medium text-white"><span class="material-symbols-outlined text-white text-lg">check</span>Site com SEO completo</li>
+            <li class="flex items-center gap-3 text-sm font-medium text-white"><span class="material-symbols-outlined text-white text-lg">check</span>Relatórios e Métricas</li>
+          </ul>
+        </div>
+        <a href="https://wa.me/5599991994754" target="_blank" class="block w-full py-4 text-center bg-white text-primary rounded-full font-bold clinical-shadow hover:scale-105 transition-transform">
+          Assinar Programa
+        </a>
+      </div>
+
+      <div class="pricing-card bg-white p-12 rounded-[2.5rem] clinical-shadow border border-outline-variant/10 flex flex-col justify-between reveal-right">
+        <div>
+          <h3 class="text-2xl font-bold text-primary mb-2 tracking-tight">Site + ChatBot</h3>
+          <p class="text-secondary text-sm mb-8">Automação completa e crescimento acelerado.</p>
+          <div class="text-4xl font-extrabold text-primary mb-10 tracking-tighter">Sob Consulta</div>
+          <ul class="space-y-4 mb-10">
+            <li class="flex items-center gap-3 text-sm font-medium text-secondary"><span class="material-symbols-outlined text-primary text-lg">check</span>ChatBot de IA 24h</li>
+            <li class="flex items-center gap-3 text-sm font-medium text-secondary"><span class="material-symbols-outlined text-primary text-lg">check</span>Site com SEO completo</li>
+            <li class="flex items-center gap-3 text-sm font-medium text-secondary"><span class="material-symbols-outlined text-primary text-lg">check</span>Relatórios e Métricas</li>
+          </ul>
+        </div>
+        <a href="https://wa.me/5599991994754" target="_blank" class="block w-full py-4 text-center border-2 border-primary text-primary rounded-full font-bold hover:bg-primary hover:text-white transition-all">
+          Falar com Consultor
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section max-w-screen-2xl mx-auto px-12 my-24 grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+
+  <div class="order-2 md:order-1 md:pl-12 lg:pl-16">
+
+    <span class="faq-text-element inline-block px-3 py-1 mb-6 mt-4 md:mt-0 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold uppercase tracking-widest">
+      Suporte consultivo
+    </span>
+
+    <h1 class="faq-text-element text-4xl md:text-5xl font-bold tracking-tight text-primary leading-[1.1] mb-6">
+      Perguntas Frequentes
+    </h1>
+
+    <p class="faq-text-element text-lg md:text-xl text-secondary max-w-md leading-relaxed">
+      Respostas detalhadas sobre nossa metodologia de crescimento para clínicas que buscam excelência e autoridade no mercado digital.
+    </p>
+
+  </div>
+
+  <div class="order-1 md:order-2 flex justify-center">
+    <div class="faq-image-wrapper w-full max-w-md lg:max-w-lg aspect-[4/5] rounded-[2.5rem] overflow-hidden bg-surface-container-high shadow-2xl mb-8 md:mb-0">
+      
+      <img 
+        src="img/esthetician.jpg"
+        alt="Clinical Interior"
+        class="faq-image w-full h-full object-cover grayscale-[20%] opacity-90"
+        style="object-position: 30% 20%;"
+      >
+
+    </div>
+  </div>
+
+</section>
+
+<!-- Accordion Section -->
+<section class="faq-accordion-section max-w-4xl mx-auto px-12">
+    <div class="space-y-4">
+        <details class="faq-accordion-item group bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300">
+            <summary class="flex justify-between items-center p-8 cursor-pointer list-none">
+                <span class="text-xl font-semibold tracking-tight text-primary group-open:text-primary-container">Quanto tempo leva para ver os primeiros resultados?</span>
+                <span class="material-symbols-outlined text-primary group-open:rotate-180 transition-transform duration-300" data-icon="expand_more">expand_more</span>
+            </summary>
+            <div class="px-8 pb-8 text-secondary leading-relaxed border-t border-outline-variant/10 pt-4">
+                Geralmente, nossas estratégias de tráfego orgânico mostram os primeiros movimentos em 30 dias, mas a consolidação da autoridade clínica leva de 3 a 6 meses.
+            </div>
+        </details>
+        
+        <details class="faq-accordion-item group bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300">
+            <summary class="flex justify-between items-center p-8 cursor-pointer list-none">
+                <span class="text-xl font-semibold tracking-tight text-primary group-open:text-primary-container">O Agendiq funciona com qualquer software de gestão?</span>
+                <span class="material-symbols-outlined text-primary group-open:rotate-180 transition-transform duration-300" data-icon="expand_more">expand_more</span>
+            </summary>
+            <div class="px-8 pb-8 text-secondary leading-relaxed border-t border-outline-variant/10 pt-4">
+                Sim, o Agendiq foi desenhado para ser universal e se integrar perfeitamente aos principais sistemas do mercado ou funcionar de forma independente.
+            </div>
+        </details>
+        
+        <details class="faq-accordion-item group bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300">
+            <summary class="flex justify-between items-center p-8 cursor-pointer list-none">
+                <span class="text-xl font-semibold tracking-tight text-primary group-open:text-primary-container">Vocês atendem apenas clínicas de grande porte?</span>
+                <span class="material-symbols-outlined text-primary group-open:rotate-180 transition-transform duration-300" data-icon="expand_more">expand_more</span>
+            </summary>
+            <div class="px-8 pb-8 text-secondary leading-relaxed border-t border-outline-variant/10 pt-4">
+                Atendemos profissionais e clínicas que buscam um posicionamento de elite, independentemente do tamanho atual, desde que o objetivo seja a excelência.
+            </div>
+        </details>
+        
+        <details class="faq-accordion-item group bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300">
+            <summary class="flex justify-between items-center p-8 cursor-pointer list-none">
+                <span class="text-xl font-semibold tracking-tight text-primary group-open:text-primary-container">Como é feito o acompanhamento das campanhas?</span>
+                <span class="material-symbols-outlined text-primary group-open:rotate-180 transition-transform duration-300" data-icon="expand_more">expand_more</span>
+            </summary>
+            <div class="px-8 pb-8 text-secondary leading-relaxed border-t border-outline-variant/10 pt-4">
+                Fornecemos relatórios mensais detalhados e temos reuniões estratégicas para alinhar os próximos passos da sua marca.
+            </div>
+        </details>
+        
+        <details class="faq-accordion-item group bg-surface-container-low rounded-xl overflow-hidden transition-all duration-300">
+            <summary class="flex justify-between items-center p-8 cursor-pointer list-none">
+                <span class="text-xl font-semibold tracking-tight text-primary group-open:text-primary-container">Vocês cuidam da criação de conteúdo para redes sociais?</span>
+                <span class="material-symbols-outlined text-primary group-open:rotate-180 transition-transform duration-300" data-icon="expand_more">expand_more</span>
+            </summary>
+            <div class="px-8 pb-8 text-secondary leading-relaxed border-t border-outline-variant/10 pt-4">
+                Sim, nossa solução Social Media cuida de todo o editorial, desde o roteiro técnico até a estética visual de luxo.
+            </div>
+        </details>
+    </div>
+</section>
+
+<!-- ═══ CTA FINAL ═══ -->
+<section class="py-24 px-6 bg-surface" id="contato">
+  <div class="max-w-7xl mx-auto reveal">
+    <div class="bg-gradient-to-br from-[#f0f4f1] to-[#e2ece6] rounded-[3rem] p-12 md:p-20 text-center clinical-shadow border border-white">
+      <span class="inline-block w-3 h-3 rounded-full bg-orange mb-8 shadow-[0_0_16px_rgba(232,112,58,0.5)]"></span>
+      <h2 class="text-4xl md:text-6xl font-bold tracking-tighter text-primary mb-8 leading-tight max-w-4xl mx-auto">
+        Ainda restou<br/>alguma dúvida?
+      </h2>
+      <p class="text-lg md:text-xl text-secondary mb-12 max-w-2xl mx-auto">
+        Converse com a gente. Sem compromisso, sem enrolação.
+      </p>
+      <a href="https://wa.me/5599991994754" target="_blank"
+         class="inline-flex items-center gap-3 px-12 py-5 bg-primary text-white rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-xl shadow-primary/20">
+        <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Falar no WhatsApp agora
+      </a>
+      <p class="text-sm text-secondary mt-6">Respondemos em menos de 2 horas nos dias úteis</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="bg-[#e5e2db] w-full py-16 px-12">
+  <div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 w-full">
+    <div class="text-xl font-extrabold text-primary tracking-tighter">
+      Velt<span class="text-orange">r</span>o
+    </div>
+    <div class="flex flex-wrap justify-center gap-8">
+      <a class="text-secondary hover:text-primary transition-colors font-medium text-sm" href="#">Política de Privacidade</a>
+      <a class="text-secondary hover:text-primary transition-colors font-medium text-sm" href="#">Termos de Uso</a>
+      <a class="text-secondary hover:text-primary transition-colors font-medium text-sm" href="#">Instagram</a>
+      <a class="text-secondary hover:text-primary transition-colors font-medium text-sm" href="veltro-final.html">← Site Institucional</a>
+    </div>
+    <p class="text-secondary text-sm">© 2025 Veltro. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/5599991994754" target="_blank"
+   class="fab fixed bottom-8 right-8 z-40 bg-primary text-white shadow-[0_10px_30px_-5px_rgba(20,66,45,0.4)] transition-transform">
+
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+
+  <span class="fab-label text-xs font-bold uppercase tracking-widest">
+    Falar com Especialista
+  </span>
+</a>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const elements = [
+      { id: "hero-badge", delay: 0 },
+      { id: "hero-title", delay: 200 },
+      { id: "hero-subtitle", delay: 400 },
+      { id: "hero-buttons", delay: 600 },
+      { id: "hero-proof", delay: 800 }
+    ];
+
+    elements.forEach(({ id, delay }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      // Estado inicial
+      el.style.transform = "translateY(30px)";
+      el.style.transition = "opacity 0.8s ease, transform 0.8s ease";
+
+      setTimeout(() => {
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      }, delay);
+    });
+  });
+
+const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('max-h-0');
+    mobileMenu.classList.toggle('max-h-[500px]');
+  });
+
+  // Fecha o menu ao clicar em um link
+  document.querySelectorAll('#mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('max-h-0');
+      mobileMenu.classList.remove('max-h-[500px]');
+    });
+  });
+
+/* ════ SCROLL REVEAL ════ */
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const fromLeft  = el.classList.contains('reveal-left');
+    const fromRight = el.classList.contains('reveal-right');
+    gsap.fromTo(el,
+      { opacity:0, x: fromLeft ? -56 : fromRight ? 56 : 0, y: (!fromLeft && !fromRight) ? 32 : 0 },
+      { opacity:1, x:0, y:0, duration:0.65, ease:'power4.out' }
+    );
+    ro.unobserve(el);
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+  gsap.set(el, { opacity:0 });
+  ro.observe(el);
+});
+
+/* Accordion de serviços */
+const accItems = document.querySelectorAll('.acc-item');
+accItems.forEach((item, i) => {
+  item.addEventListener('mouseenter', () => {
+    accItems.forEach(el => el.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+/* ScrollTrigger: animate accordion in when section enters */
+ScrollTrigger.create({trigger:'#servicos',start:'top 75%',once:true,onEnter:()=>{
+  gsap.fromTo('#serv-accordion',{opacity:0,x:60},{opacity:1,x:0,duration:0.7,ease:'power4.out'});
+  gsap.fromTo('.serv-left',{opacity:0,x:-60},{opacity:1,x:0,duration:0.7,ease:'power4.out'});
+}});
+
+/* ════ Problem cards — animação lateral bruta ════ */
+ScrollTrigger.create({
+  trigger: '.problem-card',
+  start: 'top 80%',
+  once: true,
+  onEnter: () => {
+    gsap.fromTo('.problem-card', 
+      { opacity:0, y:40 },
+      { opacity:1, y:0, duration:0.55, ease:'power4.out', stagger:0.12 }
+    );
+  }
+});
+
+gsap.registerPlugin(Draggable);
+
+let current = 0;
+const wrapper = document.querySelector('.depoimentos-wrapper');
+
+// função de slide
+function goToSlide(index){
+  current = index;
+
+  gsap.to(wrapper, {
+    x: current === 0 ? '0%' : '-50%',
+    duration: 0.8,
+    ease: 'power2.inOut'
+  });
+}
+
+// autoplay
+let auto = setInterval(nextSlide, 4000);
+
+function nextSlide(){
+  current = current === 0 ? 1 : 0;
+  goToSlide(current);
+}
+
+// reset autoplay
+function resetAuto(){
+  clearInterval(auto);
+  auto = setInterval(nextSlide, 4000);
+}
+
+// DRAG / SWIPE
+Draggable.create(wrapper, {
+  type: "x",
+  bounds: {
+    minX: -window.innerWidth, // limite esquerda
+    maxX: 0
+  },
+  inertia: true,
+
+  onDragEnd: function(){
+    let moved = this.x;
+
+    if(moved < -100){
+      goToSlide(1);
+    } else {
+      goToSlide(0);
+    }
+
+    resetAuto();
+  }
+});
+
+gsap.registerPlugin(ScrollTrigger);
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  // =========================
+  // TEXTOS (vindo da esquerda)
+  // =========================
+  gsap.from(".faq-text-element", {
+    scrollTrigger: {
+      trigger: ".faq-section",
+      start: "top 85%",
+      toggleActions: "play none none none"
+    },
+    x: -60,
+    opacity: 0,
+    duration: 0.8,
+    stagger: 0.15,
+    ease: "power3.out"
+  });
+
+  // =========================
+  // IMAGEM (vindo da direita)
+  // =========================
+  gsap.from(".faq-image-wrapper", {
+    scrollTrigger: {
+      trigger: ".faq-section",
+      start: "top 85%",
+    },
+    x: 120,
+    opacity: 0,
+    duration: 1,
+    ease: "power3.out"
+  });
+
+});
+
+const cases = {
+  arleane: {
+    handle: 'arleanecarvalho',
+    avatar: 'img/cases/arleane-avatar.jpg',
+    title: 'Studio Arleane Carvalho',
+    category: 'Site + Feed · Barra do Corda, MA',
+    description: 'Desenvolvemos o site institucional completo com foco em conversão para agendamentos, identidade visual sofisticada e seção paramédica emocional. O feed foi construído para reforçar autoridade e atrair o público feminino local.',
+    cta: 'https://arleanecarvalho.com.br',
+    metrics: [
+      { val: '+340%', label: 'Tráfego orgânico' },
+      { val: '2×', label: 'Agendamentos/mês' },
+      { val: '4.9★', label: 'Google' }
+    ],
+    slides: [
+      { type: 'browser', src: 'img/cases/arleane-site-1.webp', label: 'Site — Hero', url: 'arleanecarvalho.com.br' },
+      { type: 'browser', src: 'img/cases/arleane-site-2.webp', label: 'Site — Sobre Mim', url: 'arleanecarvalho.com.br' },
+      { type: 'browser', src: 'img/cases/arleane-site-3.webp', label: 'Site — Agendamentos', url: 'arleanecarvalho.com.br' },
+      { type: 'feed',    src: 'img/cases/arleane-feed.png',   label: 'Feed Instagram' },
+    ]
+  },
+  livia: {
+    handle: 'dra.liviameira',
+   avatar: 'img/cases/livia-avatar.png',
+    title: 'Dra. Lívia Meira',
+    category: 'Feed · Morros, SP',
+    description: 'Criamos o posicionamento visual do feed do Instagram com foco em autoridade clínica, consistência estética e geração de confiança para novos pacientes.',
+    cta: 'https://instagram.com/clinicalivia',
+    metrics: [
+      { val: '+180%', label: 'Alcance orgânico' },
+      { val: '3×', label: 'Novos seguidores/mês' },
+      { val: '↑62%', label: 'Mensagens diretas' }
+    ],
+    slides: [
+      { type: 'feed', src: 'img/cases/feed.png', label: 'Feed Instagram' },
+      { type: 'post', src: 'img/cases/livia-post-1.png', label: 'Post — Apresentação' },
+      { type: 'post', src: 'img/cases/livia-post-2.png', label: 'Post — Antes e Depois' },
+      { type: 'post', src: 'img/cases/livia-post-3.png', label: 'Post — Depoimento' },
+      { type: 'post', src: 'img/cases/livia-post-4.png', label: 'Post — Reels' },
+      { type: 'post', src: 'img/cases/livia-post-5.png', label: 'Post — Motivação' },
+      { type: 'post', src: 'img/cases/livia-post-6.png', label: 'Post — Carrossel Educativo' },
+    ]
+  }
+};
+
+/* ── estado ── */
+let caseCur = 0;
+let caseSlides = [];
+let caseHandle = '';
+let caseAvatar = '';
+
+/* ── renderiza o mockup correto por tipo ── */
+function renderMockup(slide) {
+  const area = document.getElementById('mockupArea');
+  document.getElementById('slideLabel').textContent = slide.label || '';
+
+  if (slide.type === 'browser') {
+  area.innerHTML = `
+    <div class="rounded-xl overflow-hidden shadow-xl">
+      <div class="px-4 py-2.5 flex items-center gap-2 bg-gray-800">
+        <div class="w-3 h-3 rounded-full bg-red-400"></div>
+        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+        <div class="w-3 h-3 rounded-full bg-green-400"></div>
+        <div class="flex-1 bg-gray-700 rounded-full h-5 mx-2 flex items-center px-3">
+          <span class="text-gray-400 text-[10px] truncate">${slide.url || ''}</span>
+        </div>
+      </div>
+      <div class="bg-gray-800 overflow-hidden" style="max-height: clamp(220px, 45vw, 400px);">
+       <img src="${slide.src}" class="w-full h-auto block" alt="Screenshot do site" draggable="false" style="display:block;vertical-align:top;"/>
+      </div>
+    </div>`;
+
+  } else if (slide.type === 'feed') {
+  area.innerHTML = `
+    <div style="display:flex; justify-content:center;">
+      <div class="relative bg-gray-900 shadow-2xl" style="width:min(300px,85%); height:550px; border-radius:2.8rem; padding:10px;">
+        <div class="absolute" style="top:10px; left:50%; transform:translateX(-50%); width:60px; height:5px; background:#374151; border-radius:3px; z-index:10;"></div>
+        <div class="bg-white overflow-hidden" style="border-radius:2.2rem; height:100%; display:flex; flex-direction:column;">
+          <!-- Header -->
+          <div style="display:flex; align-items:center; gap:8px; padding:14px 12px 8px; border-bottom:1px solid #f3f4f6; flex-shrink:0;">
+            <div style="width:28px; height:28px; border-radius:50%; background:conic-gradient(#f59e0b,#ec4899,#8b5cf6); padding:2px; flex-shrink:0;">
+              <div style="width:100%; height:100%; border-radius:50%; background:white; padding:2px;">
+                <div style="width:100%; height:100%; border-radius:50%; background:#e5e7eb; overflow:hidden;"> 
+                  <img src="${caseAvatar}" style="width:100%; height:100%; object-fit:cover;" alt="${caseHandle}"/>
+                </div>
+              </div>
+            </div>
+            <span style="font-size:11px; font-weight:700; color:#111827;">${caseHandle}</span>
+          </div>
+          <!-- Feed scroll interno, imagem alta ocupa o espaço -->
+          <div style="flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch;">
+            <img src="${slide.src}" style="width:100%; height:auto; display:block;" alt="Feed Instagram" draggable="false"/>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  } else if (slide.type === 'post') {
+  area.innerHTML = `
+    <div style="display:flex; justify-content:center;">
+      <div style="position:relative; background:#111827; width:min(300px,85%); height:550px; border-radius:2.8rem; padding:10px; box-shadow:0 25px 50px rgba(0,0,0,0.4);">
+        <div style="position:absolute; top:10px; left:50%; transform:translateX(-50%); width:60px; height:5px; background:#374151; border-radius:3px; z-index:10;"></div>
+        <div style="background:white; border-radius:2.2rem; height:100%; display:flex; flex-direction:column; overflow:hidden;">
+          
+          <!-- Header DENTRO do bg-white -->
+          <div style="display:flex; align-items:center; gap:8px; padding:14px 12px 8px; border-bottom:1px solid #f3f4f6; flex-shrink:0;">
+            <div style="width:28px; height:28px; border-radius:50%; background:conic-gradient(#f59e0b,#ec4899,#8b5cf6); padding:2px; flex-shrink:0;">
+              <div style="width:100%; height:100%; border-radius:50%; background:white; padding:2px;">
+                <div style="width:100%; height:100%; border-radius:50%; overflow:hidden;">
+                  <img src="${caseAvatar}" style="width:100%; height:100%; object-fit:cover; display:block;" alt=""/>
+                </div>
+              </div>
+            </div>
+            <span style="font-size:11px; font-weight:700; color:#111827;">${caseHandle}</span>
+          </div>
+
+          <!-- Post 4:5 -->
+          <div style="width:100%; aspect-ratio:4/5; flex-shrink:0; overflow:hidden;">
+            <img src="${slide.src}" style="width:100%; height:100%; object-fit:cover; display:block;" alt="Post Instagram" draggable="false"/>
+          </div>
+
+          <!-- Ações -->
+          <div style="display:flex; gap:12px; padding:10px 12px; flex-shrink:0;">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#374151" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="#374151" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          </div>
+
+          <!-- Espaço branco restante -->
+          <div style="flex:1;"></div>
+        </div>
+      </div>
+    </div>`;
+}
+}
+
+function updateDots() {
+  const dots = document.getElementById('caseDots');
+  dots.innerHTML = '';
+  caseSlides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = `h-2 rounded-full cursor-pointer transition-all ${i === caseCur ? 'bg-primary w-5' : 'bg-gray-300 w-2'}`;
+    d.onclick = () => goSlide(i);
+    dots.appendChild(d);
+  });
+}
+
+function goSlide(i) {
+  caseCur = (i + caseSlides.length) % caseSlides.length;
+  renderMockup(caseSlides[caseCur]);
+  updateDots();
+  /* esconde setas se só 1 slide */
+  const show = caseSlides.length > 1;
+  document.getElementById('slideLeft').style.display = show ? 'flex' : 'none';
+  document.getElementById('slideRight').style.display = show ? 'flex' : 'none';
+}
+
+function slideCase(dir) { goSlide(caseCur + dir); }
+
+function openCase(key) {
+  const c = cases[key];
+  if (!c) return;
+  caseCur = 0;
+  caseSlides = c.slides;
+
+  caseHandle = c.handle || '@perfil';
+  caseAvatar = c.avatar || '';
+
+  document.getElementById('caseTitle').textContent = c.title;
+  document.getElementById('caseCategory').textContent = c.category;
+  document.getElementById('caseDescription').textContent = c.description;
+  document.getElementById('caseCta').href = c.cta;
+
+  /* métricas */
+  const mWrap = document.getElementById('caseMetrics');
+  mWrap.innerHTML = c.metrics.map(m => `
+    <div class="text-center p-3 bg-gray-50 rounded-2xl">
+      <p class="text-xl font-extrabold text-primary">${m.val}</p>
+      <p class="text-xs text-gray-500 mt-1 leading-tight break-words">${m.label}</p>
+    </div>`).join('');
+
+  /* esconde CTA se for só feed/instagram */
+  const cta = document.getElementById('caseCta');
+  if (c.cta.includes('instagram')) {
+    cta.textContent = 'Ver perfil no Instagram';
+  } else {
+    cta.innerHTML = `Ver site ao vivo <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+  }
+
+  goSlide(0);
+
+  const modal = document.getElementById('caseModal');
+  const card = document.getElementById('caseCard');
+  modal.classList.remove('opacity-0', 'pointer-events-none');
+  setTimeout(() => card.classList.remove('scale-95'), 10);
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCase() {
+  const modal = document.getElementById('caseModal');
+  const card = document.getElementById('caseCard');
+  card.classList.add('scale-95');
+  setTimeout(() => modal.classList.add('opacity-0', 'pointer-events-none'), 200);
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCase(); });
+
+/* swipe no modal */
+(function(){
+  const modal = document.getElementById('caseModal');
+  let startX = 0, dragging = false, moved = false;
+
+  modal.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  modal.addEventListener('touchmove', e => {
+    e.stopPropagation();
+  }, { passive: true });
+
+  modal.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].clientX - startX;
+    if (diff < -40) slideCase(1);
+    else if (diff > 40) slideCase(-1);
+  }, { passive: true });
+
+  modal.addEventListener('mousedown', e => {
+    if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.overflow-y-auto')) return;
+    dragging = true;
+    moved = false;
+    startX = e.clientX;
+    modal.style.cursor = 'grabbing';
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  modal.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    if (Math.abs(e.clientX - startX) > 5) moved = true;
+    e.stopPropagation();
+  });
+
+  modal.addEventListener('mouseup', e => {
+    if (!dragging) return;
+    dragging = false;
+    modal.style.cursor = '';
+    if (!moved) return;
+    const diff = e.clientX - startX;
+    if (diff < -40) slideCase(1);
+    else if (diff > 40) slideCase(-1);
+    e.stopPropagation();
+  });
+})();
+
+</script>
+
+<!-- ══ MODAL CASES ══ -->
+<div id="caseModal" class="fixed inset-0 z-[999] flex items-center justify-center p-4 md:p-8 opacity-0 pointer-events-none transition-all duration-300">
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeCase()"></div>
+  
+  <div class="relative z-10 bg-white rounded-3xl w-full max-w-3xl max-h-[90svh] overflow-y-auto shadow-2xl scale-95 transition-transform duration-300" id="caseCard">
+    
+    <!-- Header -->
+    <div class="flex items-center justify-between p-6 border-b border-gray-100 sticky top-0 bg-white z-10 rounded-t-3xl">
+      <div>
+        <p class="text-xs font-bold tracking-widest uppercase text-gray-400" id="caseCategory"></p>
+        <h3 class="text-xl font-extrabold text-gray-900 mt-1" id="caseTitle"></h3>
+      </div>
+      <button onclick="closeCase()" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors flex-shrink-0 ml-4">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <!-- Área do mockup -->
+    <div class="relative bg-gray-50 p-4 md:p-6">
+      <div id="mockupArea" class="relative"></div>
+
+      <!-- Setas -->
+      <button onclick="slideCase(-1)" id="slideLeft" class="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white rounded-full shadow-lg flex items-center justify-center hover:scale-105 transition-transform z-10">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button onclick="slideCase(1)" id="slideRight" class="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white rounded-full shadow-lg flex items-center justify-center hover:scale-105 transition-transform z-10">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+
+      <!-- Dots -->
+      <div class="flex justify-center gap-2 mt-4" id="caseDots"></div>
+    </div>
+
+    <!-- Label do slide atual -->
+    <div class="px-6 pt-2 pb-1">
+      <p class="text-xs font-bold tracking-widest uppercase text-gray-400 text-center" id="slideLabel"></p>
+    </div>
+
+    <!-- Métricas + descrição -->
+    <div class="p-6">
+      <div class="grid grid-cols-3 gap-3 mb-6" id="caseMetrics"></div>
+      <p class="text-gray-600 text-sm leading-relaxed" id="caseDescription"></p>
+      <a id="caseCta" href="#" target="_blank"
+         class="mt-6 w-full py-3.5 bg-primary text-white rounded-full font-bold text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+        Ver site ao vivo
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+
+<body class="overflow-x-hidden"></body>
+
+</html>
